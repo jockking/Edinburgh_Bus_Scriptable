@@ -2,7 +2,9 @@
 
 ## Description
 
-This application enables you to easily get Edinburgh bus times using Siri shortcuts.  It is implmented on Scriptable by Simon Støvring - available on the Apple app store ([https://itunes.apple.com/gb/app/scriptable/id1405459188?mt=8](https://itunes.apple.com/gb/app/scriptable/id1405459188?mt=8))
+This application enables you to easily get Edinburgh Lothian bus times using Siri shortcuts.  It is implmented on Scriptable by Simon Støvring - available on the Apple app store ([https://itunes.apple.com/gb/app/scriptable/id1405459188?mt=8](https://itunes.apple.com/gb/app/scriptable/id1405459188?mt=8))
+
+Updated on 29/09/2020 - Added Edinburgh Bus Widget that runs within Scriptable and allows iOS 14 users to see bus details on their home screen.  Refresh is controlled by iOS so maybe a little bit out.
 
 ## Usage
 
