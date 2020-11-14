@@ -1,15 +1,13 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: pink; icon-glyph: bus;
 /************
 * Scriptable code to get status update for Edinburgh Buses
 */
 //Create date string per API spec
-const maxEntries = 7 // Display the next 6 departures
-const maxChars = 24 // Max characters to display of the Destination (middle column)
+const maxEntries = 8 // Display the next 6 departures
+const maxChars = 22 // Max characters to display of the Destination (middle column)
 
 const bgColour = new Color("#000000") // Use solid black background
 const lineFont = new Font("Menlo",14)
+const fgColour = new Color('#ffffff', 1)
 const footerFont = new Font("Helvetica",13)
 
 
@@ -35,27 +33,22 @@ async function createWidget(items) {
 
   let w = new ListWidget()
   let num = 0
-  //let localStop = items.busTimes.stopName
   
   w.backgroundColor = bgColour
       
   for (item of items.busTimes) {
 
     let busNumber = item.mnemoService
-    
-    //let busDestination = item.nameService
-    let busDestination
+    let busDestination = item.nameService
     let nextbus
-    
 
     for (busTime of item.timeDatas)
     {
       nextbus = item.timeDatas[0].minutes
-      busDestination = item.timeDatas[0].nameDest
     }
 
-    //let theLine = w.addText(busNumber + "\t" + busDestination.trim(maxChars).padEnd(maxChars," ") + "\t" + nextbus)
-    let theLine = w.addText(busNumber + "\t" + busDestination.substring(0,maxChars).padEnd(maxChars," ") + "\t" + nextbus)
+    let theLine = w.addText(busNumber + "\t" + busDestination.trim(maxChars).padEnd(maxChars," ") + "\t" + nextbus)
+    theLine.textColor = Color.white()
     theLine.font = lineFont
     
     num = num + 1
@@ -67,7 +60,10 @@ async function createWidget(items) {
   w.addSpacer(10)
 
   let theFooter = w.addText("Updated: " + await timehMMSS())
+  theFooter.textColor = Color.white()
+//   theFooter.textColour = fgColour
   theFooter.font = footerFont
+  //theFooter.setTextColor(fgColour)
   
   return w
 }
@@ -90,9 +86,6 @@ async function loadItems(stopId) {
 
     // Retrieve private key from keychain (note - this needs to be stored in keychain using key 'busapi')
     // e.g. let key = Keychain.set('busapi','ABCDEFG')
-    // let joe = Keychain.set('busapi','2ABEIJDOIEJODIJEODJO')
-    // This only has to run once to set the key
-    
     const secret = Keychain.get('busapi')
 
     //Create date string per API spec
@@ -111,7 +104,6 @@ async function loadItems(stopId) {
     //Create API code and hash using MD5
     let APICode = secret + formatted_date
     let MD5_KEY = md5(APICode)
-
 
     //Create JSON request to Edinburgh Buses API
     const url = "http://ws.mybustracker.co.uk/?module=json&key=" + MD5_KEY + "&function=getBusTimes&stopId1=" + stopId
